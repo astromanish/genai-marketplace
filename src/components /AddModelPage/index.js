@@ -13,7 +13,7 @@ function AddModelPage() {
     slug: "",
     owner_id: 1, // Replace with appropriate owner ID
     description: "",
-    generated_date: new Date().toISOString(), // Set to current date
+    generated_date: new Date().toISOString(), 
     frameworks: "",
     tags: [], // Placeholder, you'll need to handle tag input separately
     tryitout_link: "",
@@ -35,10 +35,8 @@ function AddModelPage() {
         formData
       );
       console.log(response);
-      // Handle successful submission (e.g., redirect, display a message)
     } catch (error) {
       console.error("Error submitting data:", error);
-      // Handle submission error
     }
   };
 
