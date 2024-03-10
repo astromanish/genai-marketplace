@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Card, CardContent, CardActions, Button, Link, Typography, IconButton } from "@mui/material";
+import { Grid, Card, CardContent, CardActions, Button, Link, Typography, IconButton, AppBar, Toolbar, Menu, MenuItem, Chip } from "@mui/material";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import FilterListIcon from '@mui/icons-material/FilterList';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const AllModels = ({ modelData }) => {
   const navigate = useNavigate();
   const [tags, setTags] = useState([]);
+  const [selectedTags, setSelectedTags] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [filteredModels, setFilteredModels] = useState(modelData);
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -21,6 +25,23 @@ export const AllModels = ({ modelData }) => {
     fetchTags();
   }, []);
 
+  useEffect(() => {
+    const filtered = modelData.filter((model) => selectedTags.length === 0 || model.tags.some(tag => selectedTags.includes(tag)));
+    setFilteredModels(filtered);
+  }, [selectedTags, modelData]);
+
+  const handleTagClick = (tag) => {
+    if (selectedTags.includes(tag)) {
+      setSelectedTags(selectedTags.filter((selectedTag) => selectedTag !== tag));
+    } else {
+      setSelectedTags([...selectedTags, tag]);
+    }
+  };
+
+  const handleDeleteTag = (tagToDelete) => () => {
+    setSelectedTags((prevTags) => prevTags.filter((tag) => tag !== tagToDelete));
+  };
+
   const handleUpvoteClick = async (modelId) => {
     try {
       const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
@@ -30,11 +51,51 @@ export const AllModels = ({ modelData }) => {
     }
   };
 
+  const handleFilterClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <div style={{ backgroundColor: '#ddd', padding: '20px', borderRadius: "5px" }}>
       <h2>All Models</h2>
+      <AppBar position="static" sx={{ backgroundColor: '#777'}}>
+        <Toolbar>
+          <IconButton onClick={handleFilterClick} color="inherit">
+            <FilterListIcon />
+          </IconButton>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleCloseMenu}
+          >
+            {tags.map((tag) => (
+              <MenuItem key={tag} onClick={() => handleTagClick(tag)}>
+                {tag}
+              </MenuItem>
+            ))}
+          </Menu>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Filter by Tags
+          </Typography>
+          <div>
+            {selectedTags.map((tag) => (
+              <Chip
+                key={tag}
+                label={tag}
+                onDelete={handleDeleteTag(tag)}
+                color="primary"
+                style={{ marginRight: 5 }}
+              />
+            ))}
+          </div>
+        </Toolbar>
+      </AppBar>
       <Grid container spacing={3}>
-        {modelData.map((model) => (
+        {filteredModels.map((model) => (
           <Grid item xs={12} sm={6} md={4} key={model.id}>
             <Card sx={{borderRadius: '10px', margin: "10px", padding: "5px"}}>
               <CardContent>
@@ -44,7 +105,7 @@ export const AllModels = ({ modelData }) => {
                 </Typography>
               </CardContent>
               <CardActions>
-              <Link href={model.tryitout_link} target="_blank">
+                <Link href={model.tryitout_link} target="_blank">
                   Try it Out
                 </Link>
                 <Button size="small" onClick={() => navigate(`/model/${model.id}`)}>
@@ -53,7 +114,6 @@ export const AllModels = ({ modelData }) => {
                 <IconButton onClick={() => handleUpvoteClick(model.id)}>
                   <ThumbUpAltIcon fontSize="small" /> 
                 </IconButton>
-                
               </CardActions>
             </Card>
           </Grid>

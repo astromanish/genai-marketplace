@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import { NavBar } from "./NavBar";
 import { FeaturedModels } from "./FeaturedModel";
 import { AllModels } from "./AllModel";
+import { Footer } from './Footer';
 
 const IndexPage = () => {
   const [modelData, setModelData] = useState([]);
@@ -30,6 +31,7 @@ const IndexPage = () => {
       <div style={{ marginBottom: '40px' }}>
         <AllModels modelData={modelData} />
       </div>
+      <Footer />
     </Container>
   );
 };
