@@ -60,9 +60,8 @@ export const AllModels = ({ modelData }) => {
   };
 
   return (
-    <div style={{ backgroundColor: '#ddd', padding: '20px', borderRadius: "5px" }}>
-      <h2>All Models</h2>
-      <AppBar position="static" sx={{ backgroundColor: '#777'}}>
+    <div style={{ backgroundColor: '#808080', padding: '20px'}}>
+      <AppBar position="static" sx={{ backgroundColor: '#424242'}}>
         <Toolbar>
           <IconButton onClick={handleFilterClick} color="inherit">
             <FilterListIcon />
@@ -101,14 +100,14 @@ export const AllModels = ({ modelData }) => {
               <CardContent>
                 <Typography variant="h5">{model.slug}</Typography>
                 <Typography variant="subtitle2" color="text.secondary"> 
-                  built by {model.owner__slug}
+                  developed by {model.owner__slug}
                 </Typography>
               </CardContent>
               <CardActions>
-                <Link href={model.tryitout_link} target="_blank">
+                <Link href={model.tryitout_link} target="_blank" color="#4CAF50">
                   Try it Out
                 </Link>
-                <Button size="small" onClick={() => navigate(`/model/${model.id}`)}>
+                <Button size="small" onClick={() => navigate(`/model/${model.id}`)} sx={{color: '#3B82F6'}}>
                   More Details
                 </Button>
                 <IconButton onClick={() => handleUpvoteClick(model.id)}>

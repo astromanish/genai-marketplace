@@ -13,7 +13,9 @@ import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "Inter, sans-serif",
+    fontFamily: "Poppins",
+    fontWeight: '600',
+    fontStyle: 'normal',
   },
 });
 
@@ -26,7 +28,7 @@ export const NavBar = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AppBar position="static" sx={{ backgroundColor: '#555' }}>
+      <AppBar position="static" sx={{ backgroundColor: '#333' }}>
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
@@ -37,6 +39,7 @@ export const NavBar = () => {
                 variant="contained" 
                 size="small" 
                 onClick={() => navigate("/model/add")}
+                sx={{ backgroundColor: '#424242' }}
               >
                 Add Model
               </Button>

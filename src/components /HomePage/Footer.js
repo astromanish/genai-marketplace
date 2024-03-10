@@ -3,7 +3,7 @@ import { Typography, Container, Box } from "@mui/material";
 
 export const Footer = () => {
   return (
-    <Box mt={4} textAlign="center" bgcolor="primary.main" color="white" py={2}>
+    <Box mt={4} textAlign="center" bgcolor="#111" color="white" py={2}>
       <Typography variant="body1">
         Built with{" "}
         <span role="img" aria-label="love">

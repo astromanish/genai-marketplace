@@ -99,7 +99,7 @@ function AddModelPage() {
   return (
     <Container>
       <Box mt={4} mb={4} textAlign="center">
-        <Typography variant="h3">Add Model</Typography>
+        <Typography variant="h3" style={{ color: '#333' }}>Add Model</Typography>
       </Box>
       <Grid container spacing={2} justifyContent="center">
         <Grid item xs={12} md={6}>
@@ -113,6 +113,7 @@ function AddModelPage() {
                   value={formData.slug}
                   onChange={handleChange}
                   required
+                  color="secondary"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -125,6 +126,7 @@ function AddModelPage() {
                   value={formData.description}
                   onChange={handleChange}
                   required
+                  color="secondary"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -135,6 +137,7 @@ function AddModelPage() {
                   value={formData.frameworks}
                   onChange={handleChange}
                   required
+                  color="secondary"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -145,18 +148,19 @@ function AddModelPage() {
                   value={formData.tryitout_link}
                   onChange={handleChange}
                   required
+                  color="secondary"
                 />
               </Grid>
               <Grid item xs={12}>
                 <FormControl fullWidth>
-                  <InputLabel>Owner</InputLabel>
+                  <InputLabel style={{ color: '#808080' }}>Owner</InputLabel>
                   <Select
                     value={formData.owner_id}
                     onChange={handleOwnerSelect}
                     required
                   >
                     {owners.map((owner) => (
-                      <MenuItem key={owner} value={owner}>
+                      <MenuItem key={owner} value={owner} style={{ color: '#424242' }}>
                         {owner}
                       </MenuItem>
                     ))}
@@ -180,6 +184,7 @@ function AddModelPage() {
                             key={value}
                             label={value}
                             onDelete={handleTagDelete(value)}
+                            style={{ backgroundColor: '#808080', color: '#fff' }}
                           />
                         ))}
                       </Stack>
@@ -188,14 +193,14 @@ function AddModelPage() {
                   onClick={handleFilterClick}
                 >
                   {tags.map((tag) => (
-                    <MenuItem key={tag} value={tag}>
+                    <MenuItem key={tag} value={tag} style={{ color: '#424242' }}>
                       {tag}
                     </MenuItem>
                   ))}
                 </TextField>
               </Grid>
               <Grid item xs={12}>
-                <Button variant="contained" type="submit">
+                <Button variant="contained" type="submit" style={{ backgroundColor: '#333', color: '#fff' }}>
                   Add Model
                 </Button>
               </Grid>
@@ -207,7 +212,7 @@ function AddModelPage() {
             onClose={handleCloseMenu}
           >
             {tags.map((tag) => (
-              <MenuItem key={tag} onClick={() => handleTagSelect(tag)}>
+              <MenuItem key={tag} onClick={() => handleTagSelect(tag)} style={{ color: '#424242' }}>
                 {tag}
               </MenuItem>
             ))}

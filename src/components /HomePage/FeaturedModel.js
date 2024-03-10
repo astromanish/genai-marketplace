@@ -2,20 +2,26 @@ import React from "react";
 import { Grid, Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'; // Import the visibility icon
-import Carousel from "react-material-ui-carousel";
+import Slider from "react-slick";
 import axios from "axios";
 
 export const FeaturedModels = ({ modelData }) => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 100,
+    slidesToShow: 2,
+    slidesToScroll: 2
+  };
   return (
-    <div style={{ backgroundColor: '#eee', padding: '20px', marginTop: '20px' }}> {/* Change background color of the main div */}
-      <h2>Featured Models</h2> 
-      <Carousel sx={{ height: '270px' }}>
+    <div className="slider-container" style={{ backgroundColor: '#808080', padding: '20px', marginTop: '20px', minHeight: '250px'}}>
+      <Slider {...settings}>
         {modelData
           .filter((model) => model.featured)
           .map((model) => (
             <Item key={model.id} model={model} /> 
           ))}
-      </Carousel>
+      </Slider>
     </div>
   );
 };
@@ -32,13 +38,13 @@ const Item = (props) => {
   };
 
   return ( 
-    <Card sx={{ maxWidth: '75%', margin: 'auto', borderRadius: '20px'}}> 
-      <CardContent>
+    <Card sx={{ maxWidth: '75%', margin: 'auto', borderRadius: '20px', overflow: 'visible'}}> 
+      <CardContent style={{ height: '100%' }}>
         <Typography variant="h5" sx={{ fontSize: '60px', fontFamily: 'Kode Mono, monospace', textAlign: 'center' }}> 
           {props.model.slug}
         </Typography>
         <Typography variant="subtitle2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          built by {props.model.owner__slug}
+          developed by {props.model.owner__slug}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
@@ -46,14 +52,17 @@ const Item = (props) => {
           variant="outlined"
           onClick={() => handleUpvoteClick(props.model.id)}
         >
-          {props.model.total_upvote} <ThumbUpAltOutlinedIcon />
+         
+          {props.model.total_upvote} <ThumbUpAltOutlinedIcon 
+           sx={{marginLeft: '6px'}} />
         </IconButton>
         <IconButton disabled>
-          {props.model.total_view} <VisibilityOutlinedIcon /> 
+          {props.model.total_view} <VisibilityOutlinedIcon 
+          sx={{marginLeft: '6px'}} /> 
         </IconButton>
       </CardActions>
       <CardActions sx={{ justifyContent: 'center' }}>
-        <Link href={props.model.tryitout_link} target="_blank">
+        <Link href={props.model.tryitout_link} target="_blank" color="#4CAF50">
           Try it Out
         </Link>
       </CardActions>

@@ -23,16 +23,16 @@ const IndexPage = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <NavBar />
-      <div style={{ marginBottom: '40px' }}>
+      <div style={{ marginBottom: '0px' }}>
         <FeaturedModels modelData={modelData} />
       </div>
-      <div style={{ marginBottom: '40px' }}>
+      <div style={{ marginBottom: '0px' }}>
         <AllModels modelData={modelData} />
       </div>
       <Footer />
-    </Container>
+    </>
   );
 };
 
