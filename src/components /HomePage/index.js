@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container } from "@mui/material";
 import { NavBar } from "./NavBar";
 import { FeaturedModels } from "./FeaturedModel";
 import { AllModels } from "./AllModel";
