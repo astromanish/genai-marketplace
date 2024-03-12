@@ -28,9 +28,9 @@ function AddModelPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tagsResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags`);
+        const tagsResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags/`);
         setTags(JSON.parse(tagsResponse.data.tags));
-        const ownersResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/owners`);
+        const ownersResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/owners/`);
         setOwners(JSON.parse(ownersResponse.data.owners));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -98,10 +98,6 @@ function AddModelPage() {
     } catch (error) {
       console.error("Error submitting data:", error);
     }
-  };
-  
-  const handleFilterClick = (event) => {
-    setAnchorEl(event.currentTarget);
   };
 
   const handleCloseMenu = () => {

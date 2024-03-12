@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
+import {Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'; // Import the visibility icon
 import Slider from "react-slick";

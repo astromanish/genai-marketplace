@@ -15,7 +15,7 @@ export const AllModels = ({ modelData }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags`,
+        const response = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags/`,
           {
             headers: {
               'Access-Control-Allow-Origin': '*'
@@ -53,7 +53,7 @@ export const AllModels = ({ modelData }) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote`);
+      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote/`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);

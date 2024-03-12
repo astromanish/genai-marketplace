@@ -13,7 +13,7 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model"); 
+        const response = await axios.get("https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/"); 
         setModelData(response.data);
         setLoading(false); // Set loading to false once data is fetched
       } catch (error) {
