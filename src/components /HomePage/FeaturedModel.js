@@ -40,7 +40,7 @@ const Item = (props) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
+      const response = await axios.post(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);

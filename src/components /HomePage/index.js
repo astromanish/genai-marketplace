@@ -13,7 +13,7 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8000/api/model"); 
+        const response = await axios.get("https://atlan-backend-acf306a15a9e.herokuapp.com/api/model"); 
         setModelData(response.data);
         setLoading(false);
       } catch (error) {

@@ -15,7 +15,7 @@ export const AllModels = ({ modelData }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/tags`);
+        const response = await axios.get(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/tags`);
         const parsedTags = JSON.parse(response.data.tags).map(tag => tag.fields.name);
         console.log("Parsed tags:", parsedTags); 
         setTags(parsedTags);
@@ -46,7 +46,7 @@ export const AllModels = ({ modelData }) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
+      const response = await axios.post(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);

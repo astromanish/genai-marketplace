@@ -16,12 +16,12 @@ function ModelDetailsPage() {
     const fetchData = async () => {
       try {
         // Send request to fetch model details
-        const response = await axios.get(`http://localhost:8000/api/model/${id}`);
+        const response = await axios.get(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/model/${id}`);
         setData(response.data);
         setError(null);
 
         // Send request to log view
-        await axios.post(`http://localhost:8000/api/model/${id}/view`);
+        await axios.post(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/model/${id}/view`);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError("Error fetching data. Please try again later.");
