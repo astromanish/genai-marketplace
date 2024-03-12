@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { 
-  Typography, 
-  Grid, 
-  TextField, 
-  Button,
-  Chip,
-  Stack,
-  Container,
-  Box,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
-  Menu
-} from "@mui/material";
+import { Box, Container, Grid, Typography, Button, Menu, MenuItem } from "@mui/material";
+
+import SlugTextField from "./SlugTextField";
+import DescriptionEditor from "./DescriptionEditor";
+import FrameworksTextField from "./FrameworksTextField";
+import TryItOutLinkTextField from "./TryItOutLinkTextField";
+import OwnerSelect from "./OwnerSelect";
+import TagsCheckbox from "./TagsCheckbox";
+import { EditorState } from "draft-js";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 function AddModelPage() {
   const [formData, setFormData] = useState({
     slug: "",
-    owner_id: "", 
-    description: "",
-    generated_date: new Date().toISOString(), 
+    owner_id: "",
+    description: EditorState.createEmpty(),
+    generated_date: new Date().toISOString(),
     frameworks: "",
     tags: [],
     tryitout_link: "",
@@ -33,10 +28,10 @@ function AddModelPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tagsResponse = await axios.get(`http://localhost:8000/api/tags`);
-        setTags(tagsResponse.data.tags);
-        const ownersResponse = await axios.get(`http://localhost:8000/api/owners`);
-        setOwners(ownersResponse.data.owners);
+        const tagsResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags`);
+        setTags(JSON.parse(tagsResponse.data.tags));
+        const ownersResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/owners`);
+        setOwners(JSON.parse(ownersResponse.data.owners));
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -52,20 +47,20 @@ function AddModelPage() {
     });
   };
 
-  const handleTagDelete = (tagToDelete) => () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      tags: prevData.tags.filter((tag) => tag !== tagToDelete),
-    }));
+  const handleTagToggle = (tag, checked) => {
+    if (checked) {
+      setFormData((prevData) => ({
+        ...prevData,
+        tags: [...prevData.tags, tag.pk],
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        tags: prevData.tags.filter((t) => t !== tag.pk),
+      }));
+    }
   };
-
-  const handleTagSelect = (event) => {
-    setFormData({
-      ...formData,
-      tags: event.target.value,
-    });
-    setAnchorEl(null);
-  };
+  
 
   const handleOwnerSelect = (event) => {
     setFormData({
@@ -76,18 +71,35 @@ function AddModelPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
+    // Convert EditorState to string
+    const descriptionString = formData.description.getCurrentContent().getPlainText();
+  
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/model/add",
-        formData
+        "https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/add",
+        {
+          ...formData,
+          description: descriptionString, // Send description as a string
+        }
       );
       console.log(response);
+  
+      // Clear form fields after successful submission
+      setFormData({
+        slug: "",
+        owner_id: "",
+        description: EditorState.createEmpty(),
+        generated_date: new Date().toISOString(),
+        frameworks: "",
+        tags: [],
+        tryitout_link: "",
+      });
     } catch (error) {
       console.error("Error submitting data:", error);
     }
   };
-
+  
   const handleFilterClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -97,110 +109,34 @@ function AddModelPage() {
   };
 
   return (
-    <Container>
-      <Box mt={4} mb={4} textAlign="center">
-        <Typography variant="h3" style={{ color: '#333' }}>Add Model</Typography>
-      </Box>
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item xs={12} md={6}>
+    <Box bgcolor="#424242" minHeight="100vh" py={8} display="flex" justifyContent="center" alignItems="center">
+      <Container maxWidth="md">
+        <Box bgcolor="#fff" p={4} boxShadow={4} borderRadius={8}>
+          <Typography variant="h4" color="textPrimary" mb={4} textAlign="center" fontWeight="bold" fontSize="2rem">
+            Add Model
+          </Typography>
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Name"
-                  name="slug"
-                  value={formData.slug}
-                  onChange={handleChange}
-                  required
-                  color="secondary"
-                />
+              <Grid item xs={12} md={6}>
+                <SlugTextField value={formData.slug} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  label="What can it do?"
-                  name="description"
-                  value={formData.description}
-                  onChange={handleChange}
-                  required
-                  color="secondary"
-                />
+                <DescriptionEditor editorState={formData.description} onEditorStateChange={(editorState) => setFormData({ ...formData, description: editorState })} />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Which framework it was built upon?"
-                  name="frameworks"
-                  value={formData.frameworks}
-                  onChange={handleChange}
-                  required
-                  color="secondary"
-                />
+                <FrameworksTextField value={formData.frameworks} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  label="Where can I get my hands dirty?"
-                  name="tryitout_link"
-                  value={formData.tryitout_link}
-                  onChange={handleChange}
-                  required
-                  color="secondary"
-                />
+                <TryItOutLinkTextField value={formData.tryitout_link} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel style={{ color: '#808080' }}>Owner</InputLabel>
-                  <Select
-                    value={formData.owner_id}
-                    onChange={handleOwnerSelect}
-                    required
-                  >
-                    {owners.map((owner) => (
-                      <MenuItem key={owner} value={owner} style={{ color: '#424242' }}>
-                        {owner}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <OwnerSelect value={formData.owner_id} onChange={handleOwnerSelect} owners={owners} />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Tags"
-                  name="tags"
-                  value={formData.tags}
-                  onChange={handleChange}
-                  SelectProps={{
-                    multiple: true,
-                    renderValue: (selected) => (
-                      <Stack spacing={1} direction="row">
-                        {selected.map((value) => (
-                          <Chip
-                            key={value}
-                            label={value}
-                            onDelete={handleTagDelete(value)}
-                            style={{ backgroundColor: '#808080', color: '#fff' }}
-                          />
-                        ))}
-                      </Stack>
-                    ),
-                  }}
-                  onClick={handleFilterClick}
-                >
-                  {tags.map((tag) => (
-                    <MenuItem key={tag} value={tag} style={{ color: '#424242' }}>
-                      {tag}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                <TagsCheckbox tags={tags} formData={formData} handleTagToggle={handleTagToggle} />
               </Grid>
-              <Grid item xs={12}>
-                <Button variant="contained" type="submit" style={{ backgroundColor: '#333', color: '#fff' }}>
+              <Grid item xs={12} style={{ textAlign: "center" }}>
+                <Button variant="contained" type="submit" style={{ backgroundColor: '#333', color: '#fff', borderRadius: 50, padding: '15px 30px', fontSize: '1.2rem', fontWeight: 'bold' }}>
                   Add Model
                 </Button>
               </Grid>
@@ -212,14 +148,14 @@ function AddModelPage() {
             onClose={handleCloseMenu}
           >
             {tags.map((tag) => (
-              <MenuItem key={tag} onClick={() => handleTagSelect(tag)} style={{ color: '#424242' }}>
-                {tag}
+              <MenuItem key={tag.pk} onClick={() => handleTagToggle(tag)} style={{ color: '#424242' }}>
+                {tag.fields.name}
               </MenuItem>
             ))}
           </Menu>
-        </Grid>
-      </Grid>
-    </Container>
+        </Box>
+      </Container>
+    </Box>
   );
 }
 

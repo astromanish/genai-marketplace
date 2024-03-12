@@ -28,9 +28,19 @@ export const FeaturedModels = ({ modelData }) => {
 
 const Item = (props) => {
 
+  const formatNumber = (num) => {
+    if (num >= 1000 && num < 1000000) {
+      return (num / 1000).toFixed(1) + "k";
+    } else if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + "m";
+    } else {
+      return num;
+    }
+  };
+
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
+      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);
@@ -52,12 +62,11 @@ const Item = (props) => {
           variant="outlined"
           onClick={() => handleUpvoteClick(props.model.id)}
         >
-         
-          {props.model.total_upvote} <ThumbUpAltOutlinedIcon 
+          {formatNumber(props.model.total_upvote)} <ThumbUpAltOutlinedIcon 
            sx={{marginLeft: '6px'}} />
         </IconButton>
         <IconButton disabled>
-          {props.model.total_view} <VisibilityOutlinedIcon 
+          {formatNumber(props.model.total_view)} <VisibilityOutlinedIcon 
           sx={{marginLeft: '6px'}} /> 
         </IconButton>
       </CardActions>

@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
+
 const theme = createTheme({
   typography: {
     fontFamily: "Poppins",
@@ -32,7 +33,7 @@ export const NavBar = () => {
         <Toolbar>
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
-              <StyledTypography variant="h6">AI Marketplace</StyledTypography>
+              <StyledTypography variant="h6">Tools of the Future</StyledTypography>
             </Grid>
             <Grid item>
               <Button 
@@ -50,3 +51,4 @@ export const NavBar = () => {
     </ThemeProvider>
   );
 };
+

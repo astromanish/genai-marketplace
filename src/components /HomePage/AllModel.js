@@ -15,8 +15,16 @@ export const AllModels = ({ modelData }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/api/tags`);
-        setTags(response.data.tags);
+        const response = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags`,
+          {
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        );
+        const parsedTags = JSON.parse(response.data.tags).map(tag => tag.fields.name);
+        console.log("Parsed tags:", parsedTags); 
+        setTags(parsedTags);
       } catch (error) {
         console.error("Error fetching tags:", error);
       }
@@ -26,7 +34,8 @@ export const AllModels = ({ modelData }) => {
   }, []);
 
   useEffect(() => {
-    const filtered = modelData.filter((model) => selectedTags.length === 0 || model.tags.some(tag => selectedTags.includes(tag)));
+    const filtered = modelData.filter((model) => selectedTags.length === 0 || (model.tags && model.tags.some(tag => selectedTags.includes(tag))));
+    console.log("Filtered models:", filtered); // Debugging: Print out filtered models
     setFilteredModels(filtered);
   }, [selectedTags, modelData]);
 
@@ -44,7 +53,7 @@ export const AllModels = ({ modelData }) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
+      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);
