@@ -13,9 +13,9 @@ const IndexPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/"); 
+        const response = await axios.get("http://localhost:8000/api/model"); 
         setModelData(response.data);
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -27,7 +27,7 @@ const IndexPage = () => {
   return (
     <>
       <NavBar />
-      {loading ? ( // Render loading screen if loading is true
+      {loading ? ( 
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
           <CircularProgress />
         </div>

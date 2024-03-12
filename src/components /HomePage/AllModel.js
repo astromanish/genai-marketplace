@@ -15,13 +15,7 @@ export const AllModels = ({ modelData }) => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const response = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags/`,
-          {
-            headers: {
-              'Access-Control-Allow-Origin': '*'
-            }
-          }
-        );
+        const response = await axios.get(`http://localhost:8000/api/tags`);
         const parsedTags = JSON.parse(response.data.tags).map(tag => tag.fields.name);
         console.log("Parsed tags:", parsedTags); 
         setTags(parsedTags);
@@ -29,7 +23,6 @@ export const AllModels = ({ modelData }) => {
         console.error("Error fetching tags:", error);
       }
     };
-
     fetchTags();
   }, []);
 
@@ -53,7 +46,7 @@ export const AllModels = ({ modelData }) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote/`);
+      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);

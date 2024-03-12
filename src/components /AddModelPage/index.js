@@ -28,9 +28,9 @@ function AddModelPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const tagsResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/tags/`);
+        const tagsResponse = await axios.get(`http://localhost:8000/api/tags`);
         setTags(JSON.parse(tagsResponse.data.tags));
-        const ownersResponse = await axios.get(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/owners/`);
+        const ownersResponse = await axios.get(`http://localhost:8000/api/owners`);
         setOwners(JSON.parse(ownersResponse.data.owners));
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -77,7 +77,7 @@ function AddModelPage() {
   
     try {
       const response = await axios.post(
-        "https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/add",
+        "http://localhost:8000/api/model/add",
         {
           ...formData,
           description: descriptionString, // Send description as a string

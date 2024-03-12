@@ -40,7 +40,7 @@ const Item = (props) => {
 
   const handleUpvoteClick = async (modelId) => {
     try {
-      const response = await axios.post(`https://backend-orntt06q0-manish-singhs-projects-fb106251.vercel.app/api/model/${modelId}/upvote`);
+      const response = await axios.post(`http://localhost:8000/api/model/${modelId}/upvote`);
       console.log("Upvote response:", response);
     } catch (error) {
       console.error("Error upvoting model:", error);
