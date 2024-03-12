@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Box, Container, Grid, Typography, Button, Menu, MenuItem } from "@mui/material";
+import { Box, Container, Grid, Typography, Button, Menu, MenuItem, CircularProgress } from "@mui/material";
 
 import SlugTextField from "./SlugTextField";
 import DescriptionEditor from "./DescriptionEditor";
@@ -24,6 +24,7 @@ function AddModelPage() {
   const [tags, setTags] = useState([]);
   const [owners, setOwners] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [loading, setLoading] = useState(false); // State for loading screen
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +72,7 @@ function AddModelPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true); // Show loading screen
   
     // Convert EditorState to string
     const descriptionString = formData.description.getCurrentContent().getPlainText();
@@ -97,6 +99,8 @@ function AddModelPage() {
       });
     } catch (error) {
       console.error("Error submitting data:", error);
+    } finally {
+      setLoading(false); // Hide loading screen after submission
     }
   };
 
@@ -107,7 +111,7 @@ function AddModelPage() {
   return (
     <Box bgcolor="#424242" minHeight="100vh" py={8} display="flex" justifyContent="center" alignItems="center">
       <Container maxWidth="md">
-        <Box bgcolor="#fff" p={4} boxShadow={4} borderRadius={8}>
+        <Box bgcolor="#fff" p={4} boxShadow={4} borderRadius={4}>
           <Typography variant="h4" color="textPrimary" mb={4} textAlign="center" fontWeight="bold" fontSize="2rem">
             Add Model
           </Typography>
@@ -117,6 +121,9 @@ function AddModelPage() {
                 <SlugTextField value={formData.slug} onChange={handleChange} />
               </Grid>
               <Grid item xs={12}>
+                <Typography ml={2} variant="subtitle1" color="textPrimary"> {/* Updated style for MODEL DESCRIPTION* */}
+                  MODEL DESCRIPTION*
+                </Typography>
                 <DescriptionEditor editorState={formData.description} onEditorStateChange={(editorState) => setFormData({ ...formData, description: editorState })} />
               </Grid>
               <Grid item xs={12}>
@@ -132,9 +139,13 @@ function AddModelPage() {
                 <TagsCheckbox tags={tags} formData={formData} handleTagToggle={handleTagToggle} />
               </Grid>
               <Grid item xs={12} style={{ textAlign: "center" }}>
-                <Button variant="contained" type="submit" style={{ backgroundColor: '#333', color: '#fff', borderRadius: 50, padding: '15px 30px', fontSize: '1.2rem', fontWeight: 'bold' }}>
-                  Add Model
-                </Button>
+                {loading ? (
+                  <CircularProgress /> // Show loading screen if loading state is true
+                ) : (
+                  <Button variant="contained" type="submit" style={{ backgroundColor: '#333', color: '#fff', borderRadius: 50, padding: '15px 30px', fontSize: '1.2rem', fontWeight: 'bold' }}>
+                    Add Model
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </form>

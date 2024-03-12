@@ -1,7 +1,7 @@
 import React from "react";
-import {Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
+import { Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'; // Import the visibility icon
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'; 
 import Slider from "react-slick";
 import axios from "axios";
 
@@ -10,8 +10,8 @@ export const FeaturedModels = ({ modelData }) => {
     dots: true,
     infinite: true,
     speed: 100,
-    slidesToShow: 2,
-    slidesToScroll: 2
+    slidesToShow: 1, // Adjust slidesToShow and slidesToScroll for responsiveness
+    slidesToScroll: 1
   };
   return (
     <div className="slider-container" style={{ backgroundColor: '#808080', padding: '20px', marginTop: '20px', minHeight: '250px'}}>
@@ -50,7 +50,7 @@ const Item = (props) => {
   return ( 
     <Card sx={{ maxWidth: '75%', margin: 'auto', borderRadius: '20px', overflow: 'visible'}}> 
       <CardContent style={{ height: '100%' }}>
-        <Typography variant="h5" sx={{ fontSize: '60px', fontFamily: 'Kode Mono, monospace', textAlign: 'center' }}> 
+        <Typography variant="h6" sx={{ fontSize: '40px', fontFamily: 'Kode Mono, monospace', textAlign: 'center' }}> 
           {props.model.slug}
         </Typography>
         <Typography variant="subtitle2" color="text.secondary" sx={{ textAlign: 'center' }}>

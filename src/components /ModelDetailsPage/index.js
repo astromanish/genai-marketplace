@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { HeaderSection } from "./HeaderSection";
 import { DescriptionSection } from "./DescriptionSection";
 import { ChartSection } from "./ChartSection";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
 function ModelDetailsPage() {
   let { id } = useParams();
@@ -40,17 +40,17 @@ function ModelDetailsPage() {
         </div>
       )}
       {error && ( 
-        <p>{error}</p>
+        <Typography variant="body1" align="center" sx={{ marginTop: 2 }}>{error}</Typography>
       )}
       {data && !loading && ( 
         <>
-          <Box ml={15} mr={15} mt={5}>
+          <Box sx={{ px: 2, my: 2 }}>
             <HeaderSection data={data} />
           </Box>
-          <Box ml={15} mr={15}> 
+          <Box sx={{ px: 2 }}> 
             <DescriptionSection data={data} />
           </Box>
-          <Box ml={15} mr={15} mb={5}>
+          <Box sx={{ px: 2, mb: 2 }}>
             <ChartSection data={data} />
           </Box>
         </>
