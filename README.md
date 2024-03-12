@@ -24,8 +24,8 @@ The Django backend for this project is available on GitHub at [astromanish/atlan
 
 #### Installation
 Follow these steps to set up and run the application locally:
-1. Clone the repository: `git clone https://github.com/astromanish/atlan-frontend.git`
-2. Navigate to the project directory: `cd atlan-frontend`
+1. Clone the repository: `git clone https://github.com/astromanish/genai-marketplace.git`
+2. Navigate to the project directory: `cd genai-marketplace`
 3. Install dependencies: `npm install`
 4. Start the development server: `npm start`
 5. Access the application through the provided URL.
