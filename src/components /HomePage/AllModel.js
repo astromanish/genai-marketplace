@@ -13,6 +13,7 @@ import MicrosoftBg from './images/microsoft.webp';
 import OpensourceBg from './images/opensource.webp';
 import OpenaiBg from './images/openai.webp';
 import AnthropicBg from './images/anthropic.webp';
+import MetaBg from './images/meta.webp';
 
 export const AllModels = ({ modelData }) => {
   const navigate = useNavigate();
@@ -48,7 +49,8 @@ export const AllModels = ({ modelData }) => {
     "Microsoft": MicrosoftBg,
     "Open Source Community": OpensourceBg,
     "OpenAI": OpenaiBg,
-    "Claude AI": AnthropicBg,
+    "Anthropic": AnthropicBg,
+    "Meta": MetaBg,
   };
 
   const handleTagClick = (tag) => {
