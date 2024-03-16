@@ -1,18 +1,47 @@
 import React from "react";
-import { Card, CardContent, CardActions, Link, Typography, IconButton } from "@mui/material";
+import { Card, CardContent, CardActions, Link, Typography, IconButton, CardMedia } from "@mui/material";
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'; 
 import Slider from "react-slick";
 import axios from "axios";
 
+// Image imports
+import AmazonBg from './images/amazon.webp';
+import XBg from './images/x.webp';
+import GoogleBg from './images/google.webp';
+import MicrosoftBg from './images/microsoft.webp';
+import OpensourceBg from './images/opensource.webp';
+import OpenaiBg from './images/openai.webp';
+import AnthropicBg from './images/anthropic.webp';
+
+const ownerBackgroundImages = {
+  "Amazon": AmazonBg,
+  "X": XBg,
+  "Google": GoogleBg,
+  "Microsoft": MicrosoftBg,
+  "Open Source Community": OpensourceBg,
+  "OpenAI": OpenaiBg,
+  "Claude AI": AnthropicBg,
+};
+
 export const FeaturedModels = ({ modelData }) => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 100,
-    slidesToShow: 1, // Adjust slidesToShow and slidesToScroll for responsiveness
-    slidesToScroll: 1
+    speed: 500,
+    slidesToShow: 2, 
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 600, 
+        settings: {
+          slidesToShow: 1, 
+          slidesToScroll: 1,
+        }
+      }
+    ],
   };
+  
   return (
     <div className="slider-container" style={{ backgroundColor: '#808080', padding: '20px', marginTop: '20px', minHeight: '250px'}}>
       <Slider {...settings}>
@@ -26,7 +55,7 @@ export const FeaturedModels = ({ modelData }) => {
   );
 };
 
-const Item = (props) => {
+const Item = ({ model }) => {
 
   const formatNumber = (num) => {
     if (num >= 1000 && num < 1000000) {
@@ -49,29 +78,35 @@ const Item = (props) => {
 
   return ( 
     <Card sx={{ maxWidth: '75%', margin: 'auto', borderRadius: '20px', overflow: 'visible'}}> 
+      <CardMedia
+        component="img"
+        height="200"
+        image={ownerBackgroundImages[model.owner__slug] || OpensourceBg}
+        alt="Model background"
+      />
       <CardContent style={{ height: '100%' }}>
         <Typography variant="h6" sx={{ fontSize: '40px', fontFamily: 'Kode Mono, monospace', textAlign: 'center' }}> 
-          {props.model.slug}
+          {model.slug}
         </Typography>
         <Typography variant="subtitle2" color="text.secondary" sx={{ textAlign: 'center' }}>
-          developed by {props.model.owner__slug}
+          developed by {model.owner__slug}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: 'center' }}>
         <IconButton
           variant="outlined"
-          onClick={() => handleUpvoteClick(props.model.id)}
+          onClick={() => handleUpvoteClick(model.id)}
         >
-          {formatNumber(props.model.total_upvote)} <ThumbUpAltOutlinedIcon 
+          {formatNumber(model.total_upvote)} <ThumbUpAltOutlinedIcon 
            sx={{marginLeft: '6px'}} />
         </IconButton>
         <IconButton disabled>
-          {formatNumber(props.model.total_view)} <VisibilityOutlinedIcon 
+          {formatNumber(model.total_view)} <VisibilityOutlinedIcon 
           sx={{marginLeft: '6px'}} /> 
         </IconButton>
       </CardActions>
       <CardActions sx={{ justifyContent: 'center' }}>
-        <Link href={props.model.tryitout_link} target="_blank" color="#4CAF50">
+        <Link href={model.tryitout_link} target="_blank" color="#4CAF50">
           Try it Out
         </Link>
       </CardActions>

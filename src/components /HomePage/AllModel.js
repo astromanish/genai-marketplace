@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Grid, Card, CardContent, CardActions, Button, Link, Typography, IconButton, AppBar, Toolbar, Menu, MenuItem, Chip } from "@mui/material";
+import { Grid, Card, CardContent, CardActions, Button, Link, Typography, IconButton, AppBar, Toolbar, Menu, MenuItem, Chip, CardMedia } from "@mui/material";
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+
+// Image imports
+import AmazonBg from './images/amazon.webp';
+import XBg from './images/x.webp';
+import GoogleBg from './images/google.webp';
+import MicrosoftBg from './images/microsoft.webp';
+import OpensourceBg from './images/opensource.webp';
+import OpenaiBg from './images/openai.webp';
+import AnthropicBg from './images/anthropic.webp';
 
 export const AllModels = ({ modelData }) => {
   const navigate = useNavigate();
@@ -17,7 +26,7 @@ export const AllModels = ({ modelData }) => {
       try {
         const response = await axios.get(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/tags`);
         const parsedTags = JSON.parse(response.data.tags).map(tag => tag.fields.name);
-        console.log("Parsed tags:", parsedTags); 
+        console.log("Parsed tags:", parsedTags);
         setTags(parsedTags);
       } catch (error) {
         console.error("Error fetching tags:", error);
@@ -28,9 +37,19 @@ export const AllModels = ({ modelData }) => {
 
   useEffect(() => {
     const filtered = modelData.filter((model) => selectedTags.length === 0 || (model.tags && model.tags.some(tag => selectedTags.includes(tag))));
-    console.log("Filtered models:", filtered); // Debugging: Print out filtered models
+    console.log("Filtered models:", filtered);
     setFilteredModels(filtered);
   }, [selectedTags, modelData]);
+
+  const ownerBackgroundImages = {
+    "Amazon": AmazonBg,
+    "X": XBg,
+    "Google": GoogleBg,
+    "Microsoft": MicrosoftBg,
+    "Open Source Community": OpensourceBg,
+    "OpenAI": OpenaiBg,
+    "Claude AI": AnthropicBg,
+  };
 
   const handleTagClick = (tag) => {
     if (selectedTags.includes(tag)) {
@@ -98,7 +117,13 @@ export const AllModels = ({ modelData }) => {
       <Grid container spacing={3}>
         {filteredModels.map((model) => (
           <Grid item xs={12} sm={6} md={4} key={model.id}>
-            <Card sx={{borderRadius: '10px', margin: "10px", padding: "5px"}}>
+            <Card sx={{borderRadius: '10px', margin: "10px", overflow: 'hidden'}}>
+              <CardMedia
+                component="img"
+                height="170"
+                image={ownerBackgroundImages[model.owner__slug] || OpensourceBg}
+                alt={`${model.owner__slug} background`}
+              />
               <CardContent>
                 <Typography variant="h5">{model.slug}</Typography>
                 <Typography variant="subtitle2" color="text.secondary"> 
