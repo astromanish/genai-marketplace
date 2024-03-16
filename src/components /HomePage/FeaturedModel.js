@@ -77,7 +77,7 @@ const Item = ({ model }) => {
   };
 
   return ( 
-    <Card sx={{ maxWidth: '75%', margin: 'auto', borderRadius: '20px', overflow: 'visible'}}> 
+    <Card sx={{ maxWidth: '90%', margin: 'auto', borderRadius: '20px', overflow: 'visible'}}> 
       <CardMedia
         component="img"
         height="200"

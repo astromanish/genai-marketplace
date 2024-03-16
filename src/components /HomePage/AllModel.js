@@ -24,7 +24,7 @@ export const AllModels = ({ modelData }) => {
 
   useEffect(() => {
     const fetchTags = async () => {
-      try {
+      try { 
         const response = await axios.get(`https://atlan-backend-acf306a15a9e.herokuapp.com/api/tags`);
         const parsedTags = JSON.parse(response.data.tags).map(tag => tag.fields.name);
         console.log("Parsed tags:", parsedTags);
